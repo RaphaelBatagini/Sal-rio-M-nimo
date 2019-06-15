@@ -4,7 +4,6 @@ namespace App;
 
 use App\DomHandler;
 
-
 /**
  * Labor Guide
  *
@@ -40,16 +39,20 @@ class LaborGuide {
         $domArray = DomHandler::htmlToArrayOfValues($tableHtml);
         $rows = DomHandler::getTableData($domArray);
 
+        // Workaround to fix a columns that has two links
+        $rows[28] = "{$rows[28]}{$rows[29]}";
+        unset($rows[29]);
+
         // Break rows in arrays of row length
         $rows = array_chunk($rows, self::ROW_LENGTH);
         $headers = array_shift($rows);
         $counter = 0;
         $data = array();
         foreach ($rows as $key => $row) {
-            foreach ($row as $cell) {
+            foreach ($row as $k => $cell) {
                 $data[$key][utf8_decode($headers[$counter])] = trim($cell);
                 ++$counter;
-                if ($counter > 5) {
+                if ($counter > (self::ROW_LENGTH - 1)) {
                     $counter = 0;
                 }
             }
