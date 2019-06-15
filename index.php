@@ -2,7 +2,8 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\GuiaTrabalhista;
+use App\LaborGuide;
 
-$guiaTrabalhista = new GuiaTrabalhista();
-echo $guiaTrabalhista->getSalarioMinimo();
+echo '<pre>';
+var_dump(LaborGuide::getMinimumWage());
+echo '</pre>';
